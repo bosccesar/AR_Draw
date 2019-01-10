@@ -16,13 +16,13 @@ MonoBehaviour:
     ufoLicenseKey: QVJjbTZaei8vLy8vQUFBQUtHek9Eem40YVU2MHZSQ0V0KzRqQzVlZHhHWml1MCtZZkUzN2hiQVpHb0tFd3VGMlFic3VQdTlYVHdjTmJoTWhrSHArU1NQYTA4RnFBVUNKQ2pYbUtsa3FObXBOSVJpNG5GNitWTkFXR1JVdk1KNlR2Y1FIcTYvMmpGcnZMZkp2VE41cFhIRTNNdjRRRWJtdTAwSmwrWWJqU3NsN0NIT29IZkRHOFVaK1pDS2hiNnVHeTZabVp3MnowOHBvL1ZKNnFIVTFIZ0draUkySzVJUGhnYUVxa1BDVXAwWEVEVFMrSVhJSFovb1VwMlY4cDlzMjRqQUhLczFtRUEwUktMTXRTWTVkckJLaFhONGVIc0VLYXgxUFVxcW9wc3k3Q1Jwcmhmczc3MVlCM1dzUy93T2JrVkVkVlk1Szlsc1MwWk5XLzJua1RHeU1BLzFJMUJtWDMyVWNMVDR4QnVnUXRLSHYrN0xTNG9xK1dwZnE=
     delayedInitialization: 0
     cameraDeviceModeSetting: -1
-    maxSimultaneousImageTargets: 1
+    maxSimultaneousImageTargets: 5
     maxSimultaneousObjectTargets: 1
     useDelayedLoadingObjectTargets: 0
     cameraDirection: 0
     mirrorVideoBackground: 0
-    version: 7.5.26
-    eulaAcceptedVersions: '{"Values":["7.5"]}'
+    version: 8.0.10
+    eulaAcceptedVersions: '{"Values":["7.5","8.0"]}'
   digitalEyewear:
     cameraOffset: 0.06
     distortionRenderingLayer: 31
@@ -59,7 +59,6 @@ MonoBehaviour:
     modelCorrectionMode: 0
     modelTransformEnabled: 0
     modelTransform: {x: 0, y: 0.1, z: -0.1}
-    fusionMode: 7
   smartTerrain:
     autoInitTracker: 0
     autoStartTracker: 0
