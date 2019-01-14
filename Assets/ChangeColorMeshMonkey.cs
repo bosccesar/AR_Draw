@@ -20,7 +20,7 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
     private int nbPointsByFace = 3; // Front/Joue gauche/Joue droite
     private int nbPointsByBody = 6; // Queue/Jambe gauche/Jambe droite/Bras gauche/Bras droit/Ventre
     private int nbPointsByMuzzle = 1; // Centre
-    private int nbPointsByPaws = 5; // Patte gauche/Patte droite/Main gauche/Main droite/Bas ventre
+    private int nbPointsByPaws = 4; // Patte gauche/Patte droite/Main gauche/Main droite
     private int nbPointsByHead = 3; // Haut crane/Oreille gauche/Oreille droite
     private float sourceRectWidth;
     private float sourceRectHeight;
@@ -108,7 +108,7 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         coord.Add(139f);
         hashPartCoord.Add("centre", coord);
         coord.Clear();
-        // Points des pattes
+            // Points des pattes
         coord.Add(256f);
         coord.Add(200f);
         hashPartCoord.Add("patteGauche", coord);
@@ -124,10 +124,6 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         coord.Add(256f);
         coord.Add(200f);
         hashPartCoord.Add("mainDroite", coord);
-        coord.Clear();
-        coord.Add(256f);
-        coord.Add(200f);
-        hashPartCoord.Add("basVentre", coord);
         coord.Clear();
             // Points de la tete
         coord.Add(256f);
@@ -168,7 +164,6 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         subPart.Add("patteDroite");
         subPart.Add("mainGauche");
         subPart.Add("mainDroite");
-        subPart.Add("basVentre");
         hashSubpartWithHerPart.Add("paws", subPart);
         subPart.Clear();
             // tete
