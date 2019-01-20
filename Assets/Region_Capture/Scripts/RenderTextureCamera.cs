@@ -18,8 +18,10 @@ public class RenderTextureCamera : MonoBehaviour
 	private int TextureResolutionY;
 	private Camera Render_Texture_Camera;
 	private RenderTexture CameraOutputTexture;
+    private float targetCameraWidth;
+    private float targetCameraHeight;
 
-	public RenderTexture GetRenderTexture()
+    public RenderTexture GetRenderTexture()
 	{
 		return CameraOutputTexture;
 	}
@@ -27,7 +29,7 @@ public class RenderTextureCamera : MonoBehaviour
 	void Start() 
 	{
 		Render_Texture_Camera = GetComponent<Camera>();
-		StartCoroutine(StartRenderingToTexture());
+        StartCoroutine(StartRenderingToTexture());
 	}
 
 	IEnumerator StartRenderingToTexture() 

@@ -25,6 +25,13 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
+    #region PRIVATE_MEMBER_VARIABLES
+
+    public static bool detected = false;
+    public static string nameTrackable = "";
+
+    #endregion // PRIVATE_MEMBER_VARIABLES
+
     #region UNITY_MONOBEHAVIOUR_METHODS
 
     protected virtual void Start()
@@ -61,12 +68,15 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
             OnTrackingFound();
+            detected = true;
+            nameTrackable = mTrackableBehaviour.TrackableName;
         }
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
         {
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
             OnTrackingLost();
+            detected = false;
         }
         else
         {
