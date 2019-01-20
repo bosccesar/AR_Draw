@@ -122,60 +122,60 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
 
         // 3eme dictionnaire
             // Points de la face
-        coordFaceHaut.Add(250f); // x
-        coordFaceHaut.Add(208f); // y
+        coordFaceHaut.Add(78f); // x
+        coordFaceHaut.Add(126f); // y
         hashPartCoord.Add("faceHaut", coordFaceHaut);
-        coordFaceGauche.Add(200f);
-        coordFaceGauche.Add(163f);
+        coordFaceGauche.Add(49f);
+        coordFaceGauche.Add(99f);
         hashPartCoord.Add("faceGauche", coordFaceGauche);
-        coordFaceDroite.Add(314f);
-        coordFaceDroite.Add(182f);
+        coordFaceDroite.Add(118f);
+        coordFaceDroite.Add(110f);
         hashPartCoord.Add("faceDroite", coordFaceDroite);
             // Points du corps
-        coordVentre.Add(261f);
-        coordVentre.Add(98f);
+        coordVentre.Add(86f);
+        coordVentre.Add(60f);
         hashPartCoord.Add("ventre", coordVentre);
-        coordJambeGauche.Add(328f);
-        coordJambeGauche.Add(82f);
+        coordJambeGauche.Add(56f);
+        coordJambeGauche.Add(54f);
         hashPartCoord.Add("jambeGauche", coordJambeGauche);
-        coordJambeDroite.Add(332f);
-        coordJambeDroite.Add(87f);
+        coordJambeDroite.Add(113f);
+        coordJambeDroite.Add(53f);
         hashPartCoord.Add("jambeDroite", coordJambeDroite);
-        coordBrasGauche.Add(244f);
-        coordBrasGauche.Add(110f);
+        coordBrasGauche.Add(73f);
+        coordBrasGauche.Add(69f);
         hashPartCoord.Add("brasGauche", coordBrasGauche);
-        coordBrasDroit.Add(285f);
-        coordBrasDroit.Add(115f);
+        coordBrasDroit.Add(100f);
+        coordBrasDroit.Add(69f);
         hashPartCoord.Add("brasDroit", coordBrasDroit);
-        coordQueue.Add(189f);
-        coordQueue.Add(123f);
+        coordQueue.Add(39f);
+        coordQueue.Add(75f);
         hashPartCoord.Add("queue", coordQueue);
             // Points du museau
-        coordMuseauCentre.Add(260f);
-        coordMuseauCentre.Add(151f);
+        coordMuseauCentre.Add(86f);
+        coordMuseauCentre.Add(92f);
         hashPartCoord.Add("museauCentre", coordMuseauCentre);
             // Points des pattes
-        coordPatteGauche.Add(217f);
-        coordPatteGauche.Add(60f);
+        coordPatteGauche.Add(57f);
+        coordPatteGauche.Add(37f);
         hashPartCoord.Add("patteGauche", coordPatteGauche);
-        coordPatteDroite.Add(284f);
-        coordPatteDroite.Add(60f);
+        coordPatteDroite.Add(115f);
+        coordPatteDroite.Add(36f);
         hashPartCoord.Add("patteDroite", coordPatteDroite);
-        coordMainGauche.Add(244f);
-        coordMainGauche.Add(60f);
+        coordMainGauche.Add(74f);
+        coordMainGauche.Add(37f);
         hashPartCoord.Add("mainGauche", coordMainGauche);
-        coordMainDroite.Add(313f);
-        coordMainDroite.Add(60f);
+        coordMainDroite.Add(98f);
+        coordMainDroite.Add(36f);
         hashPartCoord.Add("mainDroite", coordMainDroite);
             // Points de la tete
-        coordHautCrane.Add(244f);
-        coordHautCrane.Add(257f);
+        coordHautCrane.Add(72f);
+        coordHautCrane.Add(159f);
         hashPartCoord.Add("hautCrane", coordHautCrane);
-        coordOreilleGauche.Add(165f);
-        coordOreilleGauche.Add(222f);
+        coordOreilleGauche.Add(23f);
+        coordOreilleGauche.Add(132f);
         hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-        coordOreilleDroite.Add(346f);
-        coordOreilleDroite.Add(222f);
+        coordOreilleDroite.Add(136f);
+        coordOreilleDroite.Add(133f);
         hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
     }
 
