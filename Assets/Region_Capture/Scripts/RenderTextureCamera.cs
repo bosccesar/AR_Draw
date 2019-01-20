@@ -105,20 +105,6 @@ public class RenderTextureCamera : MonoBehaviour
 		StartCoroutine(TakeScreen());
 	}
 
-
-	private IEnumerator TakeScreen() 
-	{
-		yield return new WaitForEndOfFrame();
-
-		Texture2D FrameTexture = new Texture2D(CameraOutputTexture.width, CameraOutputTexture.height, TextureFormat.RGB24, false);
-		RenderTexture.active = CameraOutputTexture;
-		FrameTexture.ReadPixels(new Rect(0, 0, CameraOutputTexture.width, CameraOutputTexture.height), 0, 0);
-		RenderTexture.active = null;
-
-		FrameTexture.Apply();
-		saveImg(FrameTexture.EncodeToPNG());
-	}
-
     public IEnumerator GetTexture2D(System.Action<Texture2D> result)
     {
         yield return new WaitForEndOfFrame();
@@ -132,19 +118,17 @@ public class RenderTextureCamera : MonoBehaviour
         result.Invoke(FrameTexture);
     }
 
-
-    private string saveImg(byte[] imgPng)
+    private IEnumerator TakeScreen() 
 	{
-		string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
+		yield return new WaitForEndOfFrame();
 
-		Debug.Log("write to " + fileName);
+        string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
+        string pathToSave = fileName;
+        ScreenCapture.CaptureScreenshot(pathToSave);
 
-		System.IO.File.WriteAllBytes(fileName, imgPng);
-
-		#if UNITY_EDITOR
-		AssetDatabase.Refresh();
-		#endif
-
-		return fileName;
-	}
+        yield return new WaitForEndOfFrame();
+        #if UNITY_EDITOR
+        AssetDatabase.Refresh();
+        #endif
+    }
 }
