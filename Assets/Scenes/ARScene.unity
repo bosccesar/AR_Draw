@@ -2249,8 +2249,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1338855994}
-        m_MethodName: MakeScreen
+      - m_Target: {fileID: 2145919427}
+        m_MethodName: TakeScreenshot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2307,3 +2307,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd02ca290399afd4892c30488d6f433b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  partageUserId: {fileID: 785763504}
+  renderCamera: {fileID: 1338855994}

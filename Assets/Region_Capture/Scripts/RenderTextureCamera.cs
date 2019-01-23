@@ -13,7 +13,6 @@ public class RenderTextureCamera : MonoBehaviour
 	[Space(10)]
 	public bool GenerateMipmap;
 
-	private string screensPath;
 	private int TextureResolutionX;
 	private int TextureResolutionY;
 	private Camera Render_Texture_Camera;
@@ -84,26 +83,6 @@ public class RenderTextureCamera : MonoBehaviour
 
 		StartCoroutine(StartRenderingToTexture());
 	}
-	
-
-	public void MakeScreen() 
-	{
-		if (screensPath == null) 
-		{
-		#if UNITY_ANDROID && !UNITY_EDITOR
-			screensPath = "/sdcard/DCIM/RegionCapture";
-
-		#elif UNITY_IPHONE && !UNITY_EDITOR
-			screensPath = Application.persistentDataPath;
-
-		#else
-			screensPath = Application.dataPath + "/Screens";
-
-		#endif
-			System.IO.Directory.CreateDirectory(screensPath);
-		}
-		StartCoroutine(TakeScreen());
-	}
 
     public IEnumerator GetTexture2D(System.Action<Texture2D> result)
     {
@@ -118,9 +97,24 @@ public class RenderTextureCamera : MonoBehaviour
         result.Invoke(FrameTexture);
     }
 
-    private IEnumerator TakeScreen() 
-	{
-		yield return new WaitForEndOfFrame();
+    public IEnumerator TakeScreen(System.Action<string> result)
+    {
+        yield return new WaitForEndOfFrame();
+        string screensPath = null;
+        if (screensPath == null)
+        {
+        #if UNITY_ANDROID && !UNITY_EDITOR
+			screensPath = "/sdcard/DCIM/RegionCapture";
+
+        #elif UNITY_IPHONE && !UNITY_EDITOR
+			screensPath = Application.persistentDataPath;
+
+        #else
+            screensPath = Application.dataPath + "/Screens";
+
+        #endif
+            System.IO.Directory.CreateDirectory(screensPath);
+        }
 
         string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
         string pathToSave = fileName;
@@ -130,5 +124,6 @@ public class RenderTextureCamera : MonoBehaviour
         #if UNITY_EDITOR
         AssetDatabase.Refresh();
         #endif
+        result.Invoke(pathToSave);
     }
 }
