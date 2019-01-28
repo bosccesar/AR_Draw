@@ -3,19 +3,55 @@ using UnityEngine;
 using Facebook.Unity;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#pragma warning disable 0219
+#endif
+
 public class PartageScreen : MonoBehaviour {
 
     public Text partageUserId;
     public RenderTextureCamera renderCamera;
 
     // Use this for initialization
-    public void TakeScreenshot () {
+    public void TakeScreenshot ()
+    {
         StartCoroutine(renderCamera.TakeScreen(imagePath =>
         {
             FacebookLogin();
             FacebookShare(imagePath);
         }));
     }
+
+   // public void essaisFace()
+   // {
+   //     string screensPath = null;
+   //     if (screensPath == null)
+   //     {
+   //     #if UNITY_ANDROID && !UNITY_EDITOR
+			//screensPath = "/sdcard/DCIM/RegionCapture";
+
+   //     #elif UNITY_IPHONE && !UNITY_EDITOR
+			//screensPath = Application.persistentDataPath;
+
+   //     #else
+   //         screensPath = Application.dataPath + "/Screens";
+
+   //     #endif
+   //         System.IO.Directory.CreateDirectory(screensPath);
+   //     }
+
+   //     string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
+   //     string pathToSave = fileName;
+   //     ScreenCapture.CaptureScreenshot(pathToSave);
+
+   //     #if UNITY_EDITOR
+   //     AssetDatabase.Refresh();
+   //     #endif
+
+   //     FacebookLogin();
+   //     FacebookShare(pathToSave);
+   // }
 
     private void Awake()
     {

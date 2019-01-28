@@ -25,14 +25,15 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
     private float sourceRectHeight;
     private int cpt;
     private bool unityEditor;
+    private string[] tabPart;
 
     // Dictionnaire affiliant chaque sous-partie avec le nombre de point de coordonnees
     Dictionary<string, int> hashNbPointInEachSubpart = new Dictionary<string, int>();
     // Dictionnaire affiliant chaque sous-partie avec la partie mere
     Dictionary<string, List<string>> hashSubpartWithHerPart = new Dictionary<string, List<string>>();
     List<string> subPartFace = new List<string>();
+    List<string> subPartCorps = new List<string>();
     List<string> subPartMuseau = new List<string>();
-    List<string> subPartBody = new List<string>();
     List<string> subPartPattes = new List<string>();
     List<string> subPartTete = new List<string>();
     // Dictionnaire d'une liste de coordonnées pour chaque partie du dessin
@@ -40,12 +41,12 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
     List<float> coordFaceHaut = new List<float>();
     List<float> coordFaceGauche = new List<float>();
     List<float> coordFaceDroite = new List<float>();
-    List<float> coordQueue = new List<float>();
+    List<float> coordVentre = new List<float>();
     List<float> coordJambeGauche = new List<float>();
     List<float> coordJambeDroite = new List<float>();
     List<float> coordBrasGauche = new List<float>();
     List<float> coordBrasDroit = new List<float>();
-    List<float> coordVentre = new List<float>();
+    List<float> coordQueue = new List<float>();
     List<float> coordMuseauCentre = new List<float>();
     List<float> coordPatteGauche = new List<float>();
     List<float> coordPatteDroite = new List<float>();
@@ -64,6 +65,9 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
 
         unityEditor = targetDevice();
         AddDictionnary();
+
+        // Tableau contenant les 5 parties du dessin du singe
+        tabPart = new string[] { face, body, muzzle, paws, head };
     }
 
     // Update is called once per frame
@@ -74,8 +78,6 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         {
             if(DefaultTrackableEventHandler.nameTrackable == "Monkey")
             {
-                // Tableau contenant les 5 parties du dessin du singe
-                string[] tabPart = { face, body, muzzle, paws, head };
                 for (int i = 0; i < tabPart.Length; i++)
                 {
                     DrawingPart(tabPart[i]);
@@ -110,14 +112,14 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         subPartFace.Add("faceGauche");
         subPartFace.Add("faceDroite");
         hashSubpartWithHerPart.Add("face", subPartFace);
-            // Corps
-        subPartBody.Add("ventre");
-        subPartBody.Add("jambeGauche");
-        subPartBody.Add("jambeDroite");
-        subPartBody.Add("brasGauche");
-        subPartBody.Add("brasDroit");
-        subPartBody.Add("queue");
-        hashSubpartWithHerPart.Add("body", subPartBody);
+        // Corps
+        subPartCorps.Add("ventre");
+        subPartCorps.Add("jambeGauche");
+        subPartCorps.Add("jambeDroite");
+        subPartCorps.Add("brasGauche");
+        subPartCorps.Add("brasDroit");
+        subPartCorps.Add("queue");
+        hashSubpartWithHerPart.Add("body", subPartCorps);
             // Museau
         subPartMuseau.Add("museauCentre");
         hashSubpartWithHerPart.Add("muzzle", subPartMuseau);
@@ -136,7 +138,7 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         if (unityEditor)
         {
             // 3eme dictionnaire
-            // Points de la face
+                // Points de la face
             coordFaceHaut.Add(78f); // x
             coordFaceHaut.Add(126f); // y
             hashPartCoord.Add("faceHaut", coordFaceHaut);
@@ -146,7 +148,7 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             coordFaceDroite.Add(118f);
             coordFaceDroite.Add(110f);
             hashPartCoord.Add("faceDroite", coordFaceDroite);
-            // Points du corps
+                // Points du corps
             coordVentre.Add(86f);
             coordVentre.Add(60f);
             hashPartCoord.Add("ventre", coordVentre);
@@ -165,11 +167,11 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             coordQueue.Add(39f);
             coordQueue.Add(75f);
             hashPartCoord.Add("queue", coordQueue);
-            // Points du museau
+                // Points du museau
             coordMuseauCentre.Add(86f);
             coordMuseauCentre.Add(92f);
             hashPartCoord.Add("museauCentre", coordMuseauCentre);
-            // Points des pattes
+                // Points des pattes
             coordPatteGauche.Add(57f);
             coordPatteGauche.Add(37f);
             hashPartCoord.Add("patteGauche", coordPatteGauche);
@@ -182,7 +184,7 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             coordMainDroite.Add(98f);
             coordMainDroite.Add(36f);
             hashPartCoord.Add("mainDroite", coordMainDroite);
-            // Points de la tete
+                // Points de la tete
             coordHautCrane.Add(72f);
             coordHautCrane.Add(159f);
             hashPartCoord.Add("hautCrane", coordHautCrane);
@@ -200,57 +202,57 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             coordFaceHaut.Add(CoordinateScreenResponsive_X(78f, 3840f, 2160f)); // x
             coordFaceHaut.Add(CoordinateScreenResponsive_Y(126f, 2160f, 1080)); // y
             hashPartCoord.Add("faceHaut", coordFaceHaut);
-            coordFaceGauche.Add(49f);
-            coordFaceGauche.Add(99f);
+            coordFaceGauche.Add(CoordinateScreenResponsive_X(49f, 3840f, 2160f));
+            coordFaceGauche.Add(CoordinateScreenResponsive_Y(99f, 2160f, 1080));
             hashPartCoord.Add("faceGauche", coordFaceGauche);
-            coordFaceDroite.Add(118f);
-            coordFaceDroite.Add(110f);
+            coordFaceDroite.Add(CoordinateScreenResponsive_X(118f, 3840f, 2160f));
+            coordFaceDroite.Add(CoordinateScreenResponsive_Y(110f, 2160f, 1080));
             hashPartCoord.Add("faceDroite", coordFaceDroite);
-            // Points du corps
-            coordVentre.Add(86f);
-            coordVentre.Add(60f);
+                // Points du corps
+            coordVentre.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
+            coordVentre.Add(CoordinateScreenResponsive_Y(60f, 2160f, 1080));
             hashPartCoord.Add("ventre", coordVentre);
-            coordJambeGauche.Add(56f);
-            coordJambeGauche.Add(54f);
+            coordJambeGauche.Add(CoordinateScreenResponsive_X(56f, 3840f, 2160f));
+            coordJambeGauche.Add(CoordinateScreenResponsive_Y(54f, 2160f, 1080));
             hashPartCoord.Add("jambeGauche", coordJambeGauche);
-            coordJambeDroite.Add(113f);
-            coordJambeDroite.Add(53f);
+            coordJambeDroite.Add(CoordinateScreenResponsive_X(113f, 3840f, 2160f));
+            coordJambeDroite.Add(CoordinateScreenResponsive_Y(53f, 2160f, 1080));
             hashPartCoord.Add("jambeDroite", coordJambeDroite);
-            coordBrasGauche.Add(73f);
-            coordBrasGauche.Add(69f);
+            coordBrasGauche.Add(CoordinateScreenResponsive_X(73f, 3840f, 2160f));
+            coordBrasGauche.Add(CoordinateScreenResponsive_Y(69f, 2160f, 1080));
             hashPartCoord.Add("brasGauche", coordBrasGauche);
-            coordBrasDroit.Add(100f);
-            coordBrasDroit.Add(69f);
+            coordBrasDroit.Add(CoordinateScreenResponsive_X(100f, 3840f, 2160f));
+            coordBrasDroit.Add(CoordinateScreenResponsive_Y(69f, 2160f, 1080));
             hashPartCoord.Add("brasDroit", coordBrasDroit);
-            coordQueue.Add(39f);
-            coordQueue.Add(75f);
+            coordQueue.Add(CoordinateScreenResponsive_X(39f, 3840f, 2160f));
+            coordQueue.Add(CoordinateScreenResponsive_Y(75f, 2160f, 1080));
             hashPartCoord.Add("queue", coordQueue);
-            // Points du museau
-            coordMuseauCentre.Add(86f);
-            coordMuseauCentre.Add(92f);
+                // Points du museau
+            coordMuseauCentre.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
+            coordMuseauCentre.Add(CoordinateScreenResponsive_Y(92f, 2160f, 1080));
             hashPartCoord.Add("museauCentre", coordMuseauCentre);
-            // Points des pattes
-            coordPatteGauche.Add(57f);
-            coordPatteGauche.Add(37f);
+                // Points des pattes
+            coordPatteGauche.Add(CoordinateScreenResponsive_X(57f, 3840f, 2160f));
+            coordPatteGauche.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
             hashPartCoord.Add("patteGauche", coordPatteGauche);
-            coordPatteDroite.Add(115f);
-            coordPatteDroite.Add(36f);
+            coordPatteDroite.Add(CoordinateScreenResponsive_X(115f, 3840f, 2160f));
+            coordPatteDroite.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
             hashPartCoord.Add("patteDroite", coordPatteDroite);
-            coordMainGauche.Add(74f);
-            coordMainGauche.Add(37f);
+            coordMainGauche.Add(CoordinateScreenResponsive_X(74f, 3840f, 2160f));
+            coordMainGauche.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
             hashPartCoord.Add("mainGauche", coordMainGauche);
-            coordMainDroite.Add(98f);
-            coordMainDroite.Add(36f);
+            coordMainDroite.Add(CoordinateScreenResponsive_X(98f, 3840f, 2160f));
+            coordMainDroite.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
             hashPartCoord.Add("mainDroite", coordMainDroite);
-            // Points de la tete
-            coordHautCrane.Add(72f);
-            coordHautCrane.Add(159f);
+                // Points de la tete
+            coordHautCrane.Add(CoordinateScreenResponsive_X(72f, 3840f, 2160f));
+            coordHautCrane.Add(CoordinateScreenResponsive_Y(159f, 2160f, 1080));
             hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(23f);
-            coordOreilleGauche.Add(132f);
+            coordOreilleGauche.Add(CoordinateScreenResponsive_X(23f, 3840f, 2160f));
+            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(132f, 2160f, 1080));
             hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(136f);
-            coordOreilleDroite.Add(133f);
+            coordOreilleDroite.Add(CoordinateScreenResponsive_X(136f, 3840f, 2160f));
+            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(133f, 2160f, 1080));
             hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
         }
     }
