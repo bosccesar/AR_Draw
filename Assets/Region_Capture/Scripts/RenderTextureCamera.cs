@@ -104,26 +104,26 @@ public class RenderTextureCamera : MonoBehaviour
         if (screensPath == null)
         {
         #if UNITY_ANDROID && !UNITY_EDITOR
-			screensPath = "/sdcard/DCIM/RegionCapture";
-
+			screensPath = "/Pictures/Screenshot";
         #elif UNITY_IPHONE && !UNITY_EDITOR
 			screensPath = Application.persistentDataPath;
-
         #else
             screensPath = Application.dataPath + "/Screens";
-
         #endif
-            System.IO.Directory.CreateDirectory(screensPath);
-        }
+            if (!System.IO.Directory.Exists(screensPath))
+            {
+                System.IO.Directory.CreateDirectory(screensPath);
+            }
 
-        string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
-        string pathToSave = fileName;
-        ScreenCapture.CaptureScreenshot(pathToSave);
+            string fileName = screensPath + "/screen_" + System.DateTime.Now.ToString("dd_MM_HH_mm_ss") + ".png";
+            string pathToSave = fileName;
+            ScreenCapture.CaptureScreenshot(pathToSave);
 
-        yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
         #if UNITY_EDITOR
-        AssetDatabase.Refresh();
+            AssetDatabase.Refresh();
         #endif
-        result.Invoke(pathToSave);
+            result.Invoke(pathToSave);
+        }
     }
 }
