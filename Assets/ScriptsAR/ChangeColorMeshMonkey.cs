@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
-public class ChangeColorMeshMonkey : MonoBehaviour {
+public class ChangeColorMeshMonkey : MonoBehaviour
+{
     public GameObject visage;
     public GameObject corps;
     public GameObject museau;
@@ -16,16 +17,24 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
     private string muzzle = "muzzle";
     private string paws = "paws";
     private string head = "head";
+    private string[] tabPart;
     private int nbPointsByFace = 3; // Front/Joue gauche/Joue droite
     private int nbPointsByBody = 6; // Queue/Jambe gauche/Jambe droite/Bras gauche/Bras droit/Ventre
     private int nbPointsByMuzzle = 1; // Centre
     private int nbPointsByPaws = 4; // Patte gauche/Patte droite/Main gauche/Main droite
     private int nbPointsByHead = 3; // Haut crane/Oreille gauche/Oreille droite
+    private int cpt;
+    private int cptDetected;
+    private int width;
+    private int height;
+    private bool unityEditor;
+    private bool noStopCalcul;
     private float sourceRectWidth;
     private float sourceRectHeight;
-    private int cpt;
-    private bool unityEditor;
-    private string[] tabPart;
+    private float computeurWidth;
+    private float computeurHeight;
+    private float phoneTargetWidth;
+    private float phoneTargetHeight;
 
     // Dictionnaire affiliant chaque sous-partie avec le nombre de point de coordonnees
     Dictionary<string, int> hashNbPointInEachSubpart = new Dictionary<string, int>();
@@ -62,27 +71,47 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         // Taille du rectangle de récupération des pixels
         sourceRectWidth = 10f;
         sourceRectHeight = 10f;
+        width = Mathf.FloorToInt(sourceRectWidth);
+        height = Mathf.FloorToInt(sourceRectHeight);
 
-        unityEditor = targetDevice();
-        AddDictionnary();
+        // Dimensions de l'ecran de prise des coordonnees
+        computeurWidth = 2095f;
+        computeurHeight = 1045f;
+        // Dimensions du telephone cible
+        phoneTargetWidth = Screen.width;
+        phoneTargetHeight = Screen.height;
 
         // Tableau contenant les 5 parties du dessin du singe
         tabPart = new string[] { face, body, muzzle, paws, head };
+
+        unityEditor = targetDevice();
+        AddDictionnary();
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         bool detected = DefaultTrackableEventHandler.detected;
         if (detected)
         {
-            if(DefaultTrackableEventHandler.nameTrackable == "Monkey")
+            if (cptDetected < 20)
             {
-                for (int i = 0; i < tabPart.Length; i++)
+                noStopCalcul = true;
+                if (DefaultTrackableEventHandler.nameTrackable == "Monkey" && noStopCalcul)
                 {
-                    DrawingPart(tabPart[i]);
+                    cptDetected++;
+                    for (int i = 0; i < tabPart.Length; i++)
+                    {
+                        DrawingPart(tabPart[i]);
+                    }
+                    noStopCalcul = false;
                 }
             }
+        }
+        else
+        {
+            cptDetected = 0;
+            WithoutColorGameObject();
         }
     }
 
@@ -176,13 +205,13 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             coordPatteGauche.Add(37f);
             hashPartCoord.Add("patteGauche", coordPatteGauche);
             coordPatteDroite.Add(115f);
-            coordPatteDroite.Add(36f);
+            coordPatteDroite.Add(33f);
             hashPartCoord.Add("patteDroite", coordPatteDroite);
             coordMainGauche.Add(74f);
-            coordMainGauche.Add(37f);
+            coordMainGauche.Add(33f);
             hashPartCoord.Add("mainGauche", coordMainGauche);
             coordMainDroite.Add(98f);
-            coordMainDroite.Add(36f);
+            coordMainDroite.Add(33f);
             hashPartCoord.Add("mainDroite", coordMainDroite);
                 // Points de la tete
             coordHautCrane.Add(72f);
@@ -199,60 +228,60 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         {
             // 3eme dictionnaire
                 // Points de la face
-            coordFaceHaut.Add(CoordinateScreenResponsive_X(78f, 3840f, 2160f)); // x
-            coordFaceHaut.Add(CoordinateScreenResponsive_Y(126f, 2160f, 1080)); // y
+            coordFaceHaut.Add(CoordinateScreenResponsive_X(78f, computeurWidth, phoneTargetWidth)); // x
+            coordFaceHaut.Add(CoordinateScreenResponsive_Y(126f, computeurHeight, phoneTargetHeight)); // y
             hashPartCoord.Add("faceHaut", coordFaceHaut);
-            coordFaceGauche.Add(CoordinateScreenResponsive_X(49f, 3840f, 2160f));
-            coordFaceGauche.Add(CoordinateScreenResponsive_Y(99f, 2160f, 1080));
+            coordFaceGauche.Add(CoordinateScreenResponsive_X(49f, computeurWidth, phoneTargetWidth));
+            coordFaceGauche.Add(CoordinateScreenResponsive_Y(99f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("faceGauche", coordFaceGauche);
-            coordFaceDroite.Add(CoordinateScreenResponsive_X(118f, 3840f, 2160f));
-            coordFaceDroite.Add(CoordinateScreenResponsive_Y(110f, 2160f, 1080));
+            coordFaceDroite.Add(CoordinateScreenResponsive_X(118f, computeurWidth, phoneTargetWidth));
+            coordFaceDroite.Add(CoordinateScreenResponsive_Y(110f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("faceDroite", coordFaceDroite);
                 // Points du corps
-            coordVentre.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
-            coordVentre.Add(CoordinateScreenResponsive_Y(60f, 2160f, 1080));
+            coordVentre.Add(CoordinateScreenResponsive_X(86f, computeurWidth, phoneTargetWidth));
+            coordVentre.Add(CoordinateScreenResponsive_Y(60f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("ventre", coordVentre);
-            coordJambeGauche.Add(CoordinateScreenResponsive_X(56f, 3840f, 2160f));
-            coordJambeGauche.Add(CoordinateScreenResponsive_Y(54f, 2160f, 1080));
+            coordJambeGauche.Add(CoordinateScreenResponsive_X(56f, computeurWidth, phoneTargetWidth));
+            coordJambeGauche.Add(CoordinateScreenResponsive_Y(54f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("jambeGauche", coordJambeGauche);
-            coordJambeDroite.Add(CoordinateScreenResponsive_X(113f, 3840f, 2160f));
-            coordJambeDroite.Add(CoordinateScreenResponsive_Y(53f, 2160f, 1080));
+            coordJambeDroite.Add(CoordinateScreenResponsive_X(113f, computeurWidth, phoneTargetWidth));
+            coordJambeDroite.Add(CoordinateScreenResponsive_Y(53f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("jambeDroite", coordJambeDroite);
-            coordBrasGauche.Add(CoordinateScreenResponsive_X(73f, 3840f, 2160f));
-            coordBrasGauche.Add(CoordinateScreenResponsive_Y(69f, 2160f, 1080));
+            coordBrasGauche.Add(CoordinateScreenResponsive_X(73f, computeurWidth, phoneTargetWidth));
+            coordBrasGauche.Add(CoordinateScreenResponsive_Y(69f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("brasGauche", coordBrasGauche);
-            coordBrasDroit.Add(CoordinateScreenResponsive_X(100f, 3840f, 2160f));
-            coordBrasDroit.Add(CoordinateScreenResponsive_Y(69f, 2160f, 1080));
+            coordBrasDroit.Add(CoordinateScreenResponsive_X(100f, computeurWidth, phoneTargetWidth));
+            coordBrasDroit.Add(CoordinateScreenResponsive_Y(69f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("brasDroit", coordBrasDroit);
-            coordQueue.Add(CoordinateScreenResponsive_X(39f, 3840f, 2160f));
-            coordQueue.Add(CoordinateScreenResponsive_Y(75f, 2160f, 1080));
+            coordQueue.Add(CoordinateScreenResponsive_X(39f, computeurWidth, phoneTargetWidth));
+            coordQueue.Add(CoordinateScreenResponsive_Y(75f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("queue", coordQueue);
                 // Points du museau
-            coordMuseauCentre.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
-            coordMuseauCentre.Add(CoordinateScreenResponsive_Y(92f, 2160f, 1080));
+            coordMuseauCentre.Add(CoordinateScreenResponsive_X(86f, computeurWidth, phoneTargetWidth));
+            coordMuseauCentre.Add(CoordinateScreenResponsive_Y(92f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("museauCentre", coordMuseauCentre);
                 // Points des pattes
-            coordPatteGauche.Add(CoordinateScreenResponsive_X(57f, 3840f, 2160f));
-            coordPatteGauche.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
+            coordPatteGauche.Add(CoordinateScreenResponsive_X(57f, computeurWidth, phoneTargetWidth));
+            coordPatteGauche.Add(CoordinateScreenResponsive_Y(37f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("patteGauche", coordPatteGauche);
-            coordPatteDroite.Add(CoordinateScreenResponsive_X(115f, 3840f, 2160f));
-            coordPatteDroite.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
+            coordPatteDroite.Add(CoordinateScreenResponsive_X(115f, computeurWidth, phoneTargetWidth));
+            coordPatteDroite.Add(CoordinateScreenResponsive_Y(33f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("patteDroite", coordPatteDroite);
-            coordMainGauche.Add(CoordinateScreenResponsive_X(74f, 3840f, 2160f));
-            coordMainGauche.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
+            coordMainGauche.Add(CoordinateScreenResponsive_X(74f, computeurWidth, phoneTargetWidth));
+            coordMainGauche.Add(CoordinateScreenResponsive_Y(33f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("mainGauche", coordMainGauche);
-            coordMainDroite.Add(CoordinateScreenResponsive_X(98f, 3840f, 2160f));
-            coordMainDroite.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
+            coordMainDroite.Add(CoordinateScreenResponsive_X(98f, computeurWidth, phoneTargetWidth));
+            coordMainDroite.Add(CoordinateScreenResponsive_Y(33f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("mainDroite", coordMainDroite);
                 // Points de la tete
-            coordHautCrane.Add(CoordinateScreenResponsive_X(72f, 3840f, 2160f));
-            coordHautCrane.Add(CoordinateScreenResponsive_Y(159f, 2160f, 1080));
+            coordHautCrane.Add(CoordinateScreenResponsive_X(72f, computeurWidth, phoneTargetWidth));
+            coordHautCrane.Add(CoordinateScreenResponsive_Y(159f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(CoordinateScreenResponsive_X(23f, 3840f, 2160f));
-            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(132f, 2160f, 1080));
+            coordOreilleGauche.Add(CoordinateScreenResponsive_X(23f, computeurWidth, phoneTargetWidth));
+            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(132f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(CoordinateScreenResponsive_X(136f, 3840f, 2160f));
-            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(133f, 2160f, 1080));
+            coordOreilleDroite.Add(CoordinateScreenResponsive_X(136f, computeurWidth, phoneTargetWidth));
+            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(133f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
         }
     }
@@ -284,8 +313,6 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
             {
                 int x = Mathf.FloorToInt(coordonnee[0]);
                 int y = Mathf.FloorToInt(coordonnee[1]);
-                int width = Mathf.FloorToInt(sourceRectWidth);
-                int height = Mathf.FloorToInt(sourceRectHeight);
 
                 Color[] pix = text2d.GetPixels(x, y, width, height);
                 Texture2D destTex = new Texture2D(width, height);
@@ -335,5 +362,14 @@ public class ChangeColorMeshMonkey : MonoBehaviour {
         {
             tete.GetComponent<Renderer>().material.mainTexture = texture;
         }
+    }
+
+    void WithoutColorGameObject()
+    {
+        visage.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        corps.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        museau.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        pattes.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        tete.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
     }
 }

@@ -17,16 +17,24 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
     private string upperBody = "upperBody";
     private string lowerBody = "lowerBody";
     private string head = "head";
+    private string[] tabPart;
     private int nbPointsByFace = 3; // Sous la corne/Joue gauche/Joue droite
     private int nbPointsByHorn = 1; // Milieu de la corne
     private int nbPointsByUpperBody = 5; // Patte avant gauche/Patte avant droite/Patte arriere droite/fesses/Queue
     private int nbPointsByLowerBody = 42; // Ventre avant/ Ventre arriere
     private int nbPointsByHead = 3; // Haut crane/Oreille gauche/Oreille droite
+    private int cpt;
+    private int cptDetected;
+    private int width;
+    private int height;
+    private bool unityEditor;
+    private bool noStopCalcul;
     private float sourceRectWidth;
     private float sourceRectHeight;
-    private int cpt;
-    private bool unityEditor;
-    private string[] tabPart;
+    private float computeurWidth;
+    private float computeurHeight;
+    private float phoneTargetWidth;
+    private float phoneTargetHeight;
 
     // Dictionnaire affiliant chaque sous-partie avec le nombre de point de coordonnees
     Dictionary<string, int> hashNbPointInEachSubpart = new Dictionary<string, int>();
@@ -50,8 +58,6 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
     List<float> coordQueue = new List<float>();
     List<float> coordVentreDevant = new List<float>();
     List<float> coordVentreGauche = new List<float>();
-    List<float> coordMainGauche = new List<float>();
-    List<float> coordMainDroite = new List<float>();
     List<float> coordHautCrane = new List<float>();
     List<float> coordOreilleGauche = new List<float>();
     List<float> coordOreilleDroite = new List<float>();
@@ -62,12 +68,21 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         // Taille du rectangle de récupération des pixels
         sourceRectWidth = 10f;
         sourceRectHeight = 10f;
+        width = Mathf.FloorToInt(sourceRectWidth);
+        height = Mathf.FloorToInt(sourceRectHeight);
 
-        unityEditor = targetDevice();
-        AddDictionnary();
+        // Dimensions de l'ecran de prise des coordonnees
+        computeurWidth = 2095f;
+        computeurHeight = 1045f;
+        // Dimensions du telephone cible
+        phoneTargetWidth = Screen.width;
+        phoneTargetHeight = Screen.height;
 
         // Tableau contenant les 5 parties du dessin du rhinoceros
         tabPart = new string[] { face, horn, upperBody, lowerBody, head };
+
+        unityEditor = targetDevice();
+        AddDictionnary();
     }
 
     // Update is called once per frame
@@ -76,13 +91,24 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         bool detected = DefaultTrackableEventHandler.detected;
         if (detected)
         {
-            if (DefaultTrackableEventHandler.nameTrackable == "Rhinoceros")
+            if (cptDetected < 20)
             {
-                for (int i = 0; i < tabPart.Length; i++)
+                noStopCalcul = true;
+                if (DefaultTrackableEventHandler.nameTrackable == "Rhinoceros" && noStopCalcul)
                 {
-                    DrawingPart(tabPart[i]);
+                    cptDetected++;
+                    for (int i = 0; i < tabPart.Length; i++)
+                    {
+                        DrawingPart(tabPart[i]);
+                    }
+                    noStopCalcul = false;
                 }
             }
+        }
+        else
+        {
+            cptDetected = 0;
+            WithoutColorGameObject();
         }
     }
 
@@ -136,102 +162,102 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         {
             // 3eme dictionnaire
                 // Points de la face
-            coordFaceCentre.Add(78f); // x
-            coordFaceCentre.Add(126f); // y
+            coordFaceCentre.Add(440f); // x
+            coordFaceCentre.Add(89f); // y
             hashPartCoord.Add("faceCentre", coordFaceCentre);
-            coordJoueGauche.Add(49f);
-            coordJoueGauche.Add(99f);
+            coordJoueGauche.Add(398f);
+            coordJoueGauche.Add(95f);
             hashPartCoord.Add("joueGauche", coordJoueGauche);
-            coordJoueDroite.Add(118f);
-            coordJoueDroite.Add(110f);
+            coordJoueDroite.Add(472f);
+            coordJoueDroite.Add(115f);
             hashPartCoord.Add("joueDroite", coordJoueDroite);
                 // Points de la corne
-            coordCorne.Add(86f);
-            coordCorne.Add(60f);
+            coordCorne.Add(435f);
+            coordCorne.Add(110f);
             hashPartCoord.Add("centre", coordCorne);
                 // Points du haut du corps
-            coordCorpsGauche.Add(57f);
-            coordCorpsGauche.Add(37f);
+            coordCorpsGauche.Add(375f);
+            coordCorpsGauche.Add(95f);
             hashPartCoord.Add("corpsGauche", coordCorpsGauche);
-            coordPatteGauche.Add(57f);
-            coordPatteGauche.Add(37f);
+            coordPatteGauche.Add(380f);
+            coordPatteGauche.Add(65f);
             hashPartCoord.Add("patteGauche", coordPatteGauche);
-            coordPatteCentre.Add(115f);
-            coordPatteCentre.Add(36f);
+            coordPatteCentre.Add(415f);
+            coordPatteCentre.Add(62f);
             hashPartCoord.Add("patteCentre", coordPatteCentre);
-            coordPatteDroite.Add(74f);
-            coordPatteDroite.Add(37f);
+            coordPatteDroite.Add(435f);
+            coordPatteDroite.Add(48f);
             hashPartCoord.Add("patteDroite", coordPatteDroite);
-            coordQueue.Add(98f);
-            coordQueue.Add(36f);
+            coordQueue.Add(350f);
+            coordQueue.Add(84f);
             hashPartCoord.Add("queue", coordQueue);
                 // Points du bas du corps
-            coordVentreDevant.Add(86f);
-            coordVentreDevant.Add(92f);
+            coordVentreDevant.Add(436f);
+            coordVentreDevant.Add(62f);
             hashPartCoord.Add("ventreDevant", coordVentreDevant);
-            coordVentreGauche.Add(92f);
-            coordVentreGauche.Add(92f);
+            coordVentreGauche.Add(410f);
+            coordVentreGauche.Add(60f);
             hashPartCoord.Add("ventreGauche", coordVentreGauche);
                 // Points de la tete
-            coordHautCrane.Add(72f);
-            coordHautCrane.Add(159f);
+            coordHautCrane.Add(422f);
+            coordHautCrane.Add(143f);
             hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(23f);
-            coordOreilleGauche.Add(132f);
+            coordOreilleGauche.Add(376f);
+            coordOreilleGauche.Add(138f);
             hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(136f);
-            coordOreilleDroite.Add(133f);
+            coordOreilleDroite.Add(458f);
+            coordOreilleDroite.Add(164f);
             hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
         }
         else
         {
             // 3eme dictionnaire
                 // Points de la face
-            coordFaceCentre.Add(CoordinateScreenResponsive_X(78f, 3840f, 2160f)); // x
-            coordFaceCentre.Add(CoordinateScreenResponsive_Y(126f, 2160f, 1080)); // y
+            coordFaceCentre.Add(CoordinateScreenResponsive_X(440f, computeurWidth, phoneTargetWidth)); // x
+            coordFaceCentre.Add(CoordinateScreenResponsive_Y(89f, computeurHeight, phoneTargetHeight)); // y
             hashPartCoord.Add("faceCentre", coordFaceCentre);
-            coordJoueGauche.Add(CoordinateScreenResponsive_X(49f, 3840f, 2160f));
-            coordJoueGauche.Add(CoordinateScreenResponsive_Y(99f, 2160f, 1080));
+            coordJoueGauche.Add(CoordinateScreenResponsive_X(398f, computeurWidth, phoneTargetWidth));
+            coordJoueGauche.Add(CoordinateScreenResponsive_Y(95f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("joueGauche", coordJoueGauche);
-            coordJoueDroite.Add(CoordinateScreenResponsive_X(118f, 3840f, 2160f));
-            coordJoueDroite.Add(CoordinateScreenResponsive_Y(110f, 2160f, 1080));
+            coordJoueDroite.Add(CoordinateScreenResponsive_X(472f, computeurWidth, phoneTargetWidth));
+            coordJoueDroite.Add(CoordinateScreenResponsive_Y(115f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("joueDroite", coordJoueDroite);
                 // Points de la corne
-            coordCorne.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
-            coordCorne.Add(CoordinateScreenResponsive_Y(60f, 2160f, 1080));
+            coordCorne.Add(CoordinateScreenResponsive_X(435f, computeurWidth, phoneTargetWidth));
+            coordCorne.Add(CoordinateScreenResponsive_Y(110f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("centre", coordCorne);
                 // Points du haut du corps
-            coordCorpsGauche.Add(CoordinateScreenResponsive_X(57f, 3840f, 2160f));
-            coordCorpsGauche.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
+            coordCorpsGauche.Add(CoordinateScreenResponsive_X(375f, computeurWidth, phoneTargetWidth));
+            coordCorpsGauche.Add(CoordinateScreenResponsive_Y(95f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("corpsGauche", coordCorpsGauche);
-            coordPatteGauche.Add(CoordinateScreenResponsive_X(115f, 3840f, 2160f));
-            coordPatteGauche.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
+            coordPatteGauche.Add(CoordinateScreenResponsive_X(380f, computeurWidth, phoneTargetWidth));
+            coordPatteGauche.Add(CoordinateScreenResponsive_Y(65f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("patteGauche", coordPatteGauche);
-            coordPatteCentre.Add(CoordinateScreenResponsive_X(74f, 3840f, 2160f));
-            coordPatteCentre.Add(CoordinateScreenResponsive_Y(37f, 2160f, 1080));
+            coordPatteCentre.Add(CoordinateScreenResponsive_X(415f, computeurWidth, phoneTargetWidth));
+            coordPatteCentre.Add(CoordinateScreenResponsive_Y(62f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("patteCentre", coordPatteCentre);
-            coordPatteDroite.Add(CoordinateScreenResponsive_X(98f, 3840f, 2160f));
-            coordPatteDroite.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
+            coordPatteDroite.Add(CoordinateScreenResponsive_X(435f, computeurWidth, phoneTargetWidth));
+            coordPatteDroite.Add(CoordinateScreenResponsive_Y(48f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("patteDroite", coordPatteDroite);
-            coordQueue.Add(CoordinateScreenResponsive_X(98f, 3840f, 2160f));
-            coordQueue.Add(CoordinateScreenResponsive_Y(36f, 2160f, 1080));
+            coordQueue.Add(CoordinateScreenResponsive_X(350f, computeurWidth, phoneTargetWidth));
+            coordQueue.Add(CoordinateScreenResponsive_Y(84f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("queue", coordQueue);
                 // Points du bas du corps
-            coordVentreDevant.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
-            coordVentreDevant.Add(CoordinateScreenResponsive_Y(92f, 2160f, 1080));
+            coordVentreDevant.Add(CoordinateScreenResponsive_X(436f, computeurWidth, phoneTargetWidth));
+            coordVentreDevant.Add(CoordinateScreenResponsive_Y(62f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("ventreDevant", coordVentreDevant);
-            coordVentreGauche.Add(CoordinateScreenResponsive_X(86f, 3840f, 2160f));
-            coordVentreGauche.Add(CoordinateScreenResponsive_Y(92f, 2160f, 1080));
+            coordVentreGauche.Add(CoordinateScreenResponsive_X(410f, computeurWidth, phoneTargetWidth));
+            coordVentreGauche.Add(CoordinateScreenResponsive_Y(60f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("ventreGauche", coordVentreGauche);
                 // Points de la tete
-            coordHautCrane.Add(CoordinateScreenResponsive_X(72f, 3840f, 2160f));
-            coordHautCrane.Add(CoordinateScreenResponsive_Y(159f, 2160f, 1080));
+            coordHautCrane.Add(CoordinateScreenResponsive_X(422f, computeurWidth, phoneTargetWidth));
+            coordHautCrane.Add(CoordinateScreenResponsive_Y(143f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(CoordinateScreenResponsive_X(23f, 3840f, 2160f));
-            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(132f, 2160f, 1080));
+            coordOreilleGauche.Add(CoordinateScreenResponsive_X(376f, computeurWidth, phoneTargetWidth));
+            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(138f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(CoordinateScreenResponsive_X(136f, 3840f, 2160f));
-            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(133f, 2160f, 1080));
+            coordOreilleDroite.Add(CoordinateScreenResponsive_X(458f, computeurWidth, phoneTargetWidth));
+            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(164f, computeurHeight, phoneTargetHeight));
             hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
         }
     }
@@ -263,8 +289,6 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
             {
                 int x = Mathf.FloorToInt(coordonnee[0]);
                 int y = Mathf.FloorToInt(coordonnee[1]);
-                int width = Mathf.FloorToInt(sourceRectWidth);
-                int height = Mathf.FloorToInt(sourceRectHeight);
 
                 Color[] pix = text2d.GetPixels(x, y, width, height);
                 Texture2D destTex = new Texture2D(width, height);
@@ -315,5 +339,14 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         {
             tete.GetComponent<Renderer>().material.mainTexture = texture;
         }
+    }
+
+    void WithoutColorGameObject()
+    {
+        visage.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        corne.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        corpsHaut.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        corpsBas.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
+        tete.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
     }
 }
