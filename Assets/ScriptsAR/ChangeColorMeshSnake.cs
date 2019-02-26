@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Vuforia;
 
 public class ChangeColorMeshSnake : MonoBehaviour
@@ -11,6 +12,7 @@ public class ChangeColorMeshSnake : MonoBehaviour
     public GameObject corpsBas;
     public GameObject tete;
     public RenderTextureCamera renderCamera;
+    public RawImage rawImage;
 
     private string face = "face";
     private string scales = "scales";
@@ -71,17 +73,8 @@ public class ChangeColorMeshSnake : MonoBehaviour
         width = Mathf.FloorToInt(sourceRectWidth);
         height = Mathf.FloorToInt(sourceRectHeight);
 
-        // Dimensions de l'ecran de prise des coordonnes
-        computeurWidth = 2095f;
-        computeurHeight = 1045f;
-        // Dimensions du telephone cible
-        phoneTargetWidth = Screen.width;
-        phoneTargetHeight = Screen.height;
-
         // Tableau contenant les 5 parties du dessin du serpent
         tabPart = new string[] { face, scales, upperBody, lowerBody, head };
-
-        unityEditor = targetDevice();
         AddDictionnary();
     }
 
@@ -110,17 +103,6 @@ public class ChangeColorMeshSnake : MonoBehaviour
             cptDetected = 0;
             WithoutColorGameObject();
         }
-    }
-
-    private bool targetDevice()
-    {
-        bool isUnityEditor;
-        #if UNITY_EDITOR
-            isUnityEditor = true;
-        #elif UNITY_ANDROID || UNITY_IPHONE
-            isUnityEditor = false;
-        #endif
-        return isUnityEditor;
     }
 
     void AddDictionnary()
@@ -158,122 +140,54 @@ public class ChangeColorMeshSnake : MonoBehaviour
         subPartTete.Add("oreilleDroite");
         hashSubpartWithHerPart.Add("head", subPartTete);
 
-        if (unityEditor)
-        {
-            // 3eme dictionnaire
-                // Points de la face
-            coordFaceCentre.Add(230f); // x
-            coordFaceCentre.Add(116f); // y
-            hashPartCoord.Add("faceCentre", coordFaceCentre);
-            coordFaceGauche.Add(195f);
-            coordFaceGauche.Add(119f);
-            hashPartCoord.Add("faceGauche", coordFaceGauche);
-            coordFaceDroite.Add(262f);
-            coordFaceDroite.Add(103f);
-            hashPartCoord.Add("faceDroite", coordFaceDroite);
-                // Points des ecailles
-            coordEcaillesHaut.Add(244f);
-            coordEcaillesHaut.Add(164f);
-            hashPartCoord.Add("ecaillesHaut", coordEcaillesHaut);
-            coordEcaillesArriere.Add(270f);
-            coordEcaillesArriere.Add(59f);
-            hashPartCoord.Add("ecaillesArriere", coordEcaillesArriere);
-                // Points du haut du corps
-            coordCorpsHautDessus.Add(230f);
-            coordCorpsHautDessus.Add(77f);
-            hashPartCoord.Add("hautDessus", coordCorpsHautDessus);
-            coordCorpsHautGauche.Add(213f);
-            coordCorpsHautGauche.Add(47f);
-            hashPartCoord.Add("HautGauche", coordCorpsHautGauche);
-            coordCorpsHautBas.Add(242f);
-            coordCorpsHautBas.Add(35f);
-            hashPartCoord.Add("HautBas", coordCorpsHautBas);
-            coordCorpsHautDroite.Add(275f);
-            coordCorpsHautDroite.Add(39f);
-            hashPartCoord.Add("HautDroite", coordCorpsHautDroite);
-                // Points du bas du corps
-            coordCorpsBasGauche.Add(218f);
-            coordCorpsBasGauche.Add(80f);
-            hashPartCoord.Add("BasGauche", coordCorpsBasGauche);
-            coordCorpsBasDroite.Add(288f);
-            coordCorpsBasDroite.Add(69f);
-            hashPartCoord.Add("BasDroite", coordCorpsBasDroite);
-                // Points de la tete
-            coordHautCrane.Add(240f);
-            coordHautCrane.Add(147f);
-            hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(198f);
-            coordOreilleGauche.Add(144f);
-            hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(267f);
-            coordOreilleDroite.Add(126f);
-            hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
-        }
-        else
-        {
-            // 3eme dictionnaire
-                // Points de la face
-            coordFaceCentre.Add(CoordinateScreenResponsive_X(230f, computeurWidth, phoneTargetWidth)); // x
-            coordFaceCentre.Add(CoordinateScreenResponsive_Y(116f, computeurHeight, phoneTargetHeight)); // y
-            hashPartCoord.Add("faceHaut", coordFaceCentre);
-            coordFaceGauche.Add(CoordinateScreenResponsive_X(195f, computeurWidth, phoneTargetWidth));
-            coordFaceGauche.Add(CoordinateScreenResponsive_Y(119f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("faceGauche", coordFaceGauche);
-            coordFaceDroite.Add(CoordinateScreenResponsive_X(262f, computeurWidth, phoneTargetWidth));
-            coordFaceDroite.Add(CoordinateScreenResponsive_Y(103f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("faceDroite", coordFaceDroite);
-                // Points des ecailles
-            coordEcaillesHaut.Add(CoordinateScreenResponsive_X(244f, computeurWidth, phoneTargetWidth));
-            coordEcaillesHaut.Add(CoordinateScreenResponsive_Y(164f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("ecaillesHaut", coordEcaillesHaut);
-            coordEcaillesArriere.Add(CoordinateScreenResponsive_X(270f, computeurWidth, phoneTargetWidth));
-            coordEcaillesArriere.Add(CoordinateScreenResponsive_Y(59f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("ecaillesArriere", coordEcaillesArriere);
-                // Points du haut du corps
-            coordCorpsHautDessus.Add(CoordinateScreenResponsive_X(230f, computeurWidth, phoneTargetWidth));
-            coordCorpsHautDessus.Add(CoordinateScreenResponsive_Y(77f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("hautDessus", coordCorpsHautDessus);
-            coordCorpsHautGauche.Add(CoordinateScreenResponsive_X(213f, computeurWidth, phoneTargetWidth));
-            coordCorpsHautGauche.Add(CoordinateScreenResponsive_Y(47f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("HautGauche", coordCorpsHautGauche);
-            coordCorpsHautBas.Add(CoordinateScreenResponsive_X(242f, computeurWidth, phoneTargetWidth));
-            coordCorpsHautBas.Add(CoordinateScreenResponsive_Y(35f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("HautBas", coordCorpsHautBas);
-            coordCorpsHautDroite.Add(CoordinateScreenResponsive_X(275f, computeurWidth, phoneTargetWidth));
-            coordCorpsHautDroite.Add(CoordinateScreenResponsive_Y(39f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("HautDroite", coordCorpsHautDroite);
-                // Points du bas du corps
-            coordCorpsBasGauche.Add(CoordinateScreenResponsive_X(218f, computeurWidth, phoneTargetWidth));
-            coordCorpsBasGauche.Add(CoordinateScreenResponsive_Y(80f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("BasGauche", coordCorpsBasGauche);
-            coordCorpsBasDroite.Add(CoordinateScreenResponsive_X(288f, computeurWidth, phoneTargetWidth));
-            coordCorpsBasDroite.Add(CoordinateScreenResponsive_Y(69f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("BasDroite", coordCorpsBasDroite);
-                // Points de la tete
-            coordHautCrane.Add(CoordinateScreenResponsive_X(240f, computeurWidth, phoneTargetWidth));
-            coordHautCrane.Add(CoordinateScreenResponsive_Y(147f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("hautCrane", coordHautCrane);
-            coordOreilleGauche.Add(CoordinateScreenResponsive_X(198f, computeurWidth, phoneTargetWidth));
-            coordOreilleGauche.Add(CoordinateScreenResponsive_Y(144f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
-            coordOreilleDroite.Add(CoordinateScreenResponsive_X(267f, computeurWidth, phoneTargetWidth));
-            coordOreilleDroite.Add(CoordinateScreenResponsive_Y(126f, computeurHeight, phoneTargetHeight));
-            hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
-        }
-    }
-
-    private float CoordinateScreenResponsive_X(float coordinateComputerX, float computerWidth, float targetWidth)
-    {
-        float coordinateUpdate;
-        coordinateUpdate = (coordinateComputerX * targetWidth) / computerWidth;
-        return coordinateUpdate;
-    }
-
-    private float CoordinateScreenResponsive_Y(float coordinateComputerY, float computerHeight, float targetHeight)
-    {
-        float coordinateUpdate;
-        coordinateUpdate = (coordinateComputerY * targetHeight) / computerHeight;
-        return coordinateUpdate;
+        // 3eme dictionnaire
+            // Points de la face
+        coordFaceCentre.Add(224f); // x
+        coordFaceCentre.Add(125f); // y
+        hashPartCoord.Add("faceCentre", coordFaceCentre);
+        coordFaceGauche.Add(193f);
+        coordFaceGauche.Add(123f);
+        hashPartCoord.Add("faceGauche", coordFaceGauche);
+        coordFaceDroite.Add(258f);
+        coordFaceDroite.Add(108f);
+        hashPartCoord.Add("faceDroite", coordFaceDroite);
+            // Points des ecailles
+        coordEcaillesHaut.Add(244f);
+        coordEcaillesHaut.Add(164f);
+        hashPartCoord.Add("ecaillesHaut", coordEcaillesHaut);
+        coordEcaillesArriere.Add(270f);
+        coordEcaillesArriere.Add(59f);
+        hashPartCoord.Add("ecaillesArriere", coordEcaillesArriere);
+            // Points du haut du corps
+        coordCorpsHautDessus.Add(230f);
+        coordCorpsHautDessus.Add(88f);
+        hashPartCoord.Add("hautDessus", coordCorpsHautDessus);
+        coordCorpsHautGauche.Add(213f);
+        coordCorpsHautGauche.Add(55f);
+        hashPartCoord.Add("HautGauche", coordCorpsHautGauche);
+        coordCorpsHautBas.Add(240f);
+        coordCorpsHautBas.Add(40f);
+        hashPartCoord.Add("HautBas", coordCorpsHautBas);
+        coordCorpsHautDroite.Add(272f);
+        coordCorpsHautDroite.Add(45f);
+        hashPartCoord.Add("HautDroite", coordCorpsHautDroite);
+            // Points du bas du corps
+        coordCorpsBasGauche.Add(218f);
+        coordCorpsBasGauche.Add(87f);
+        hashPartCoord.Add("BasGauche", coordCorpsBasGauche);
+        coordCorpsBasDroite.Add(289f);
+        coordCorpsBasDroite.Add(77f);
+        hashPartCoord.Add("BasDroite", coordCorpsBasDroite);
+            // Points de la tete
+        coordHautCrane.Add(238f);
+        coordHautCrane.Add(149f);
+        hashPartCoord.Add("hautCrane", coordHautCrane);
+        coordOreilleGauche.Add(196f);
+        coordOreilleGauche.Add(146f);
+        hashPartCoord.Add("oreilleGauche", coordOreilleGauche);
+        coordOreilleDroite.Add(264f);
+        coordOreilleDroite.Add(127f);
+        hashPartCoord.Add("oreilleDroite", coordOreilleDroite);
     }
 
     void DrawingPart(string drawingPart)
@@ -289,6 +203,8 @@ public class ChangeColorMeshSnake : MonoBehaviour
             {
                 int x = Mathf.FloorToInt(coordonnee[0]);
                 int y = Mathf.FloorToInt(coordonnee[1]);
+
+                // rawImage.texture = text2d; // Permet de recuperer la texture complete
 
                 Color[] pix = text2d.GetPixels(x, y, width, height);
                 Texture2D destTex = new Texture2D(width, height);
