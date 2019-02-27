@@ -2,7 +2,8 @@
 ## Augmented reality drawing with Unity3D ##
 The principle is to display a model colored exactly like the drawing scanned by a smartphone.
 <pre>1st step
-Print the image of the desired animal and color this</pre>
+Print the image of the desired animal and color this.
+Folder : Assets/Ressources</pre>
 <pre>2nd step
 Build and run the application on your phone</pre>
 <pre>3rd step
