@@ -1,6 +1,6 @@
 # AR_Draw #
 ## Augmented reality drawing with Unity3D ##
-
+The principle is to display a model colored exactly like the drawing scanned by a smartphone.
 <pre>1st step
 Print the image of the desired animal and color this</pre>
 <pre>2nd step
