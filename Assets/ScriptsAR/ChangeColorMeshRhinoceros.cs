@@ -26,11 +26,8 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
     private int nbPointsByLowerBody = 42; // Ventre avant/ Ventre arriere
     private int nbPointsByHead = 3; // Haut crane/Oreille gauche/Oreille droite
     private int cpt;
-    private int cptDetected;
     private int width;
     private int height;
-    private bool unityEditor;
-    private bool noStopCalcul;
     private float sourceRectWidth;
     private float sourceRectHeight;
     private float computeurWidth;
@@ -75,33 +72,16 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
 
         // Tableau contenant les 5 parties du dessin du rhinoceros
         tabPart = new string[] { face, horn, upperBody, lowerBody, head };
+
         AddDictionnary();
+        GoCalcul();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GoCalcul()
     {
-        bool detected = DefaultTrackableEventHandler.detected;
-        if (detected)
+        for (int i = 0; i < tabPart.Length; i++)
         {
-            if (cptDetected < 20)
-            {
-                noStopCalcul = true;
-                if (DefaultTrackableEventHandler.nameTrackable == "Rhinoceros" && noStopCalcul)
-                {
-                    cptDetected++;
-                    for (int i = 0; i < tabPart.Length; i++)
-                    {
-                        DrawingPart(tabPart[i]);
-                    }
-                    noStopCalcul = false;
-                }
-            }
-        }
-        else
-        {
-            cptDetected = 0;
-            WithoutColorGameObject();
+            DrawingPart(tabPart[i]);
         }
     }
 
@@ -209,7 +189,7 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
                 destTex.SetPixels(pix);
                 destTex.Apply();
 
-                // rawImage.texture = text2d; // Permet de recuperer la texture complete
+                //rawImage.texture = text2d; // Permet de recuperer la texture complete
 
                 tabTextures[cpt] = destTex;
                 if (cpt == nbPart - 1)
@@ -255,14 +235,5 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         {
             tete.GetComponent<Renderer>().material.mainTexture = texture;
         }
-    }
-
-    void WithoutColorGameObject()
-    {
-        visage.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        corne.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        corpsHaut.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        corpsBas.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        tete.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
     }
 }

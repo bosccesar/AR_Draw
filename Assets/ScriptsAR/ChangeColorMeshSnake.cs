@@ -26,11 +26,8 @@ public class ChangeColorMeshSnake : MonoBehaviour
     private int nbPointsByLowerBody = 2; // Gauche/Droite
     private int nbPointsByHead = 3; // Haut crane/Oeil gauche/Oeil droit
     private int cpt;
-    private int cptDetected;
     private int width;
     private int height;
-    private bool unityEditor;
-    private bool noStopCalcul;
     private float sourceRectWidth;
     private float sourceRectHeight;
     private float computeurWidth;
@@ -75,33 +72,16 @@ public class ChangeColorMeshSnake : MonoBehaviour
 
         // Tableau contenant les 5 parties du dessin du serpent
         tabPart = new string[] { face, scales, upperBody, lowerBody, head };
+
         AddDictionnary();
+        GoCalcul();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GoCalcul()
     {
-        bool detected = DefaultTrackableEventHandler.detected;
-        if (detected)
+        for (int i = 0; i < tabPart.Length; i++)
         {
-            if (cptDetected < 20)
-            {
-                noStopCalcul = true;
-                if (DefaultTrackableEventHandler.nameTrackable == "Snake" && noStopCalcul)
-                {
-                    cptDetected++;
-                    for (int i = 0; i < tabPart.Length; i++)
-                    {
-                        DrawingPart(tabPart[i]);
-                    }
-                    noStopCalcul = false;
-                }
-            }
-        }
-        else
-        {
-            cptDetected = 0;
-            WithoutColorGameObject();
+            DrawingPart(tabPart[i]);
         }
     }
 
@@ -204,7 +184,7 @@ public class ChangeColorMeshSnake : MonoBehaviour
                 int x = Mathf.FloorToInt(coordonnee[0]);
                 int y = Mathf.FloorToInt(coordonnee[1]);
 
-                // rawImage.texture = text2d; // Permet de recuperer la texture complete
+                //rawImage.texture = text2d; // Permet de recuperer la texture complete
 
                 Color[] pix = text2d.GetPixels(x, y, width, height);
                 Texture2D destTex = new Texture2D(width, height);
@@ -255,14 +235,5 @@ public class ChangeColorMeshSnake : MonoBehaviour
         {
             tete.GetComponent<Renderer>().material.mainTexture = texture;
         }
-    }
-
-    void WithoutColorGameObject()
-    {
-        visage.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        ecailles.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        corpsHaut.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        corpsBas.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
-        tete.GetComponent<Renderer>().material.mainTexture = Texture2D.whiteTexture;
     }
 }
