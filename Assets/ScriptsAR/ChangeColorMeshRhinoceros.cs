@@ -23,7 +23,7 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
     private int nbPointsByFace = 3; // Sous la corne/Joue gauche/Joue droite
     private int nbPointsByHorn = 1; // Milieu de la corne
     private int nbPointsByUpperBody = 5; // Patte avant gauche/Patte avant droite/Patte arriere droite/fesses/Queue
-    private int nbPointsByLowerBody = 42; // Ventre avant/ Ventre arriere
+    private int nbPointsByLowerBody = 2; // Ventre avant/ Ventre arriere
     private int nbPointsByHead = 3; // Haut crane/Oreille gauche/Oreille droite
     private int cpt;
     private int width;
@@ -104,11 +104,11 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         subPartCorne.Add("centre");
         hashSubpartWithHerPart.Add("horn", subPartCorne);
             // Haut du corps
+        subPartHautCorps.Add("queue");
         subPartHautCorps.Add("corpsGauche");
         subPartHautCorps.Add("patteGauche");
-        subPartHautCorps.Add("patteCentre");
         subPartHautCorps.Add("patteDroite");
-        subPartHautCorps.Add("queue");
+        subPartHautCorps.Add("patteCentre");
         hashSubpartWithHerPart.Add("upperBody", subPartHautCorps);
             // Bas du corps
         subPartBasCorps.Add("ventreDevant");
@@ -137,7 +137,7 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         hashPartCoord.Add("centre", coordCorne);
             // Points du haut du corps
         coordQueue.Add(350f);
-        coordQueue.Add(86f);
+        coordQueue.Add(78f);
         hashPartCoord.Add("queue", coordQueue);
         coordCorpsGauche.Add(375f);
         coordCorpsGauche.Add(93f);
@@ -145,13 +145,13 @@ public class ChangeColorMeshRhinoceros : MonoBehaviour
         coordPatteGauche.Add(380f);
         coordPatteGauche.Add(65f);
         hashPartCoord.Add("patteGauche", coordPatteGauche);
+        coordPatteDroite.Add(435f);
+        coordPatteDroite.Add(45f);
+        hashPartCoord.Add("patteDroite", coordPatteDroite);
         coordPatteCentre.Add(415f);
         coordPatteCentre.Add(62f);
         hashPartCoord.Add("patteCentre", coordPatteCentre);
-        coordPatteDroite.Add(435f);
-        coordPatteDroite.Add(48f);
-        hashPartCoord.Add("patteDroite", coordPatteDroite);
-            // Points du bas du corps
+        // Points du bas du corps
         coordVentreDevant.Add(436f);
         coordVentreDevant.Add(57f);
         hashPartCoord.Add("ventreDevant", coordVentreDevant);

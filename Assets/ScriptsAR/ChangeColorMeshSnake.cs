@@ -136,7 +136,7 @@ public class ChangeColorMeshSnake : MonoBehaviour
         coordEcaillesHaut.Add(164f);
         hashPartCoord.Add("ecaillesHaut", coordEcaillesHaut);
         coordEcaillesArriere.Add(266f);
-        coordEcaillesArriere.Add(59f);
+        coordEcaillesArriere.Add(61f);
         hashPartCoord.Add("ecaillesArriere", coordEcaillesArriere);
             // Points du haut du corps
         coordCorpsHautDessus.Add(230f);
